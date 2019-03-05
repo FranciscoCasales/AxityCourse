@@ -1,9 +1,9 @@
 package mx.com.axity.services.service;
 
-import mx.com.axity.commons.to.UserTO;
 import mx.com.axity.model.UserDO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IbecaService {
 
@@ -12,4 +12,8 @@ public interface IbecaService {
     int multiplication(int mult1, int mult2);
     int division(int div1, int div2);
     List<UserDO> getAllUsers();
+    void createUser(UserDO userDO);
+    UserDO getUserByID(Long id);
+    void deleteUserByID(Long id);
+    void updateUser(UserDO userDO);
 }

@@ -2,6 +2,7 @@ package mx.com.axity.web.rest;
 
 import io.swagger.annotations.Api;
 import mx.com.axity.commons.to.UserTO;
+import mx.com.axity.model.UserDO;
 import mx.com.axity.services.facade.IbecaFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +34,7 @@ public class HelloController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/user", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity saveUser(@RequestBody UserTO userTo) {
 
         LOG.info("User");
@@ -41,15 +42,40 @@ public class HelloController {
         LOG.info(userTo.getAge());
         LOG.info(userTo.getId());
         LOG.info(userTo.getLastName());
+        this.IbecaFacade.createUser(userTo);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity updateUser(@RequestBody UserTO userTo) {
+
+        LOG.info("User");
+        LOG.info(userTo.getName());
+        LOG.info(userTo.getAge());
+        LOG.info(userTo.getId());
+        LOG.info(userTo.getLastName());
+        this.IbecaFacade.updateUser(userTo);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity findUser(@RequestParam(value = "id") int id) {
+    public ResponseEntity<UserTO> findUserByID(@RequestParam(value = "id") Long id) {
 
         LOG.info("User ID");
         LOG.info(id);
+        UserTO user = this.IbecaFacade.getUserByID(id);
+
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity deleteUserByID(@RequestParam(value = "id") Long id) {
+
+        LOG.info("User ID");
+        LOG.info(id);
+        this.IbecaFacade.deleteUserByID(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

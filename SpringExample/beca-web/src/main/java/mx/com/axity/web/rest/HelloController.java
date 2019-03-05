@@ -8,10 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
@@ -33,6 +31,27 @@ public class HelloController {
         LOG.info("Se invoca /users");
         List<UserTO> users = this.IbecaFacade.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity saveUser(@RequestBody UserTO userTo) {
+
+        LOG.info("User");
+        LOG.info(userTo.getName());
+        LOG.info(userTo.getAge());
+        LOG.info(userTo.getId());
+        LOG.info(userTo.getLastName());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity findUser(@RequestParam(value = "id") int id) {
+
+        LOG.info("User ID");
+        LOG.info(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = "application/json")
